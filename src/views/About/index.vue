@@ -48,7 +48,7 @@
               <div>
                 <label class="block text-gray-700">Unit</label>
                 <select v-model="unit" class="w-full mt-1 p-2 border border-gray-300 rounded">
-                  <option v-for="u in units" :key="u.id" :value="u.id">{{ u.name }}</option>
+                  <option v-for="u in units" :key="u.id" :value="u.name">{{ u.name }}</option>
                 </select>
               </div>
               <div>
@@ -153,6 +153,7 @@ export default {
       axios.post('http://localhost:5000/api/meetings', {
         unit: this.unit,
         ruangMeeting: this.ruangMeeting,
+        kapasitas: this.kapasitas,
         tanggalRapat: this.tanggalRapat,
         waktuMulai: this.waktuMulai,
         waktuSelesai: this.waktuSelesai,

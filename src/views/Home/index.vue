@@ -62,8 +62,8 @@
             <tbody>
               <tr v-for="(meeting, index) in meetings" :key="index" class="">
                 <td class="p-4 font-semibold">{{ meeting.unit }}</td>
-                <td class="p-4">{{ meeting.unit }}</td>
                 <td class="p-4">{{ meeting.ruangMeeting }}</td>
+                <td class="p-4">{{ meeting.kapasitas }}</td>
                 <td class="p-4">{{ meeting.tanggalRapat }}</td>
                 <td class="p-4">{{ meeting.waktuMulai }} s/d {{ meeting.waktuSelesai }}</td>
                 <td class="p-4">{{ meeting.jumlahPeserta }}</td>
