@@ -26,18 +26,23 @@
           </a></li>
         </ul>
       </div>
-      <div class="w-7/8 p-6">
-        <div id="app" class="w-10/12 mx-auto p-6 bg-white shadow-md mt-10 rounded-lg">
+      <div class="w-18/20 pl-8 ">
+        <div id="app" class=" mx-auto p-6 bg-white  mt-10 rounded-lg">
           <div class="flex items-center mb-6">
             <button class="text-gray-600 text-2xl mr-4" @click="goBack">
               <i class="fas fa-arrow-left"></i>
             </button>
-            <div>
-              <h1 class="text-2xl font-semibold">Ruang Meeting</h1>
-              <p class="text-gray-500">Ruang Meeting > Pesan Ruangan</p>
+            <div class="flex items-center gap-2">
+              <button @click.prevent="$router.push('/')" class="px-6 py-2 bg-teal-600 rounded-2xl text-white">
+              {{ '<' }}
+              </button>
+              <div>
+                <h1 class="text-2xl font-semibold">Ruang Meeting</h1>
+                <p class="text-gray-500">Ruang Meeting > Pesan Ruangan</p>
+              </div>
             </div>
           </div>
-          <div>
+          <div class="shadow-md p-6 bg-white border border-1 border-gray-100">
             <h2 class="text-xl font-semibold mb-4">Informasi Ruang Meeting</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
@@ -49,7 +54,7 @@
               <div>
                 <label class="block text-gray-700">Ruang Meeting</label>
                 <select v-model="ruangMeeting" class="w-full mt-1 p-2 border border-gray-300 rounded">
-                  <option v-for="r in rooms" :key="r.id" :value="r.id">{{ r.name }}</option>
+                  <option v-for="r in rooms" :key="r.id" :value="r.name">{{ r.name }}</option>
                 </select>
               </div>
               <div class="col-span-1 md:col-span-2">
@@ -92,8 +97,15 @@
                 <input type="checkbox" v-model="jenisKonsumsi.snackSore" class="mr-2"> Snack Sore
               </label>
             </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="col-span-1 md:col-span-3">
+              <label class="block text-gray-700">Nominal Konsumsi</label>
+              <input type="number" v-model="nominalKonsumsi" class="w-full mt-1 p-2 border border-gray-300 rounded" placeholder="Masukan Nominal Konsuumsi">
+            </div>
+            </div>
             <div class="flex justify-end">
-              <button class="bg-red-500 text-white px-4 py-2 rounded mr-2" @click.prevent="batal">Batal</button>
+              <button class="text-red-500 px-4 py-2 rounded mr-2" @click.prevent="batal">Batal</button>
               <button class="bg-teal-500 text-white px-4 py-2 rounded cursor-pointer" @click.prevent="simpan">Simpan</button>
             </div>
           </div>
@@ -123,7 +135,8 @@ export default {
       },
       units: [{ id: 1, name: 'Unit A' }, { id: 2, name: 'Unit B' }],
       rooms: [{ id: 1, name: 'Ruang 101' }, { id: 2, name: 'Ruang 102' }],
-      waktuOptions: ['08:00', '10:00', '12:00', '14:00']
+      waktuOptions: ['08:00', '10:00', '12:00', '14:00'],
+      nominalKonsumsi: ''
     };
   },
   methods: {
@@ -138,19 +151,30 @@ export default {
 
 
       axios.post('http://localhost:5000/api/meetings', {
-        unit: "Unit Keuangan",
+        unit: this.unit,
         ruangMeeting: this.ruangMeeting,
         tanggalRapat: this.tanggalRapat,
         waktuMulai: this.waktuMulai,
         waktuSelesai: this.waktuSelesai,
         jumlahPeserta: this.jumlahPeserta,
-        jenisKonsumsi: jenisKonsumsiPay
+        jenisKonsumsi: jenisKonsumsiPay,
+        nominalKonsumsi: this.nominalKonsumsi
       }).then(response => {
         alert('Pemesanan berhasil!');
         this.$router.push('/')
       }).catch(error => {
-        console.error('Error:', error);
+        if (error.response && error.response.data.errors) {
+        // Ambil pesan error dari validasi API
+        const errorMessages = error.response.data.errors.map(err => err.msg).join('\n');
+        alert('Validasi Gagal:\n' + errorMessages);
+        } else {
+          alert('Terjadi kesalahan saat menyimpan data.');
+        }
       });
+    },
+
+    batal() {
+      this.$router.push('/')
     }
   }
 };

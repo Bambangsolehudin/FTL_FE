@@ -46,39 +46,41 @@
           </div>
         </div>
         
-        <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead class="bg-gray-200">
-            <tr>
-              <th class="p-3 text-left">UNIT</th>
-              <th class="p-3 text-left">RUANG MEETING</th>
-              <th class="p-3 text-left">KAPASITAS</th>
-              <th class="p-3 text-left">TANGGAL RAPAT</th>
-              <th class="p-3 text-left">WAKTU</th>
-              <th class="p-3 text-left">JUMLAH PESERTA</th>
-              <th class="p-3 text-left">JENIS KONSUMSI</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(meeting, index) in meetings" :key="index" class="">
-              <td class="p-4 font-semibold">{{ meeting.unit }}</td>
-              <td class="p-4">{{ meeting.unit }}</td>
-              <td class="p-4">{{ meeting.ruangMeeting }}</td>
-              <td class="p-4">{{ meeting.tanggalRapat }}</td>
-              <td class="p-4">{{ meeting.waktuMulai }} s/d {{ meeting.waktuSelesai }}</td>
-              <td class="p-4">{{ meeting.jumlahPeserta }}</td>
-              <td class="p-4">
-                 {{meeting.jenisKonsumsi?.join(',')}}
-              </td>
-              
-            </tr>
-          </tbody>
-        </table>
+        <div class="p-6 shadow-2xl border border-1 border-gray-200 ">
+          <table id="myTable" class="w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-200">
+              <tr>
+                <th class="p-3 text-left">UNIT</th>
+                <th class="p-3 text-left">RUANG MEETING</th>
+                <th class="p-3 text-left">KAPASITAS</th>
+                <th class="p-3 text-left">TANGGAL RAPAT</th>
+                <th class="p-3 text-left">WAKTU</th>
+                <th class="p-3 text-left">JUMLAH PESERTA</th>
+                <th class="p-3 text-left">JENIS KONSUMSI</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(meeting, index) in meetings" :key="index" class="">
+                <td class="p-4 font-semibold">{{ meeting.unit }}</td>
+                <td class="p-4">{{ meeting.unit }}</td>
+                <td class="p-4">{{ meeting.ruangMeeting }}</td>
+                <td class="p-4">{{ meeting.tanggalRapat }}</td>
+                <td class="p-4">{{ meeting.waktuMulai }} s/d {{ meeting.waktuSelesai }}</td>
+                <td class="p-4">{{ meeting.jumlahPeserta }}</td>
+                <td class="p-4">
+                   {{meeting.jenisKonsumsi?.join(',')}}
+                </td>
+                
+              </tr>
+            </tbody>
+          </table>
+        </div>
         
-        <div class="flex justify-end mt-4 space-x-2">
+        <!-- <div class="flex justify-end mt-4 space-x-2">
           <button class="px-3 py-1 bg-gray-300 rounded">Previous</button>
           <button class="px-3 py-1 bg-teal-600 text-white rounded">1</button>
           <button class="px-3 py-1 bg-gray-300 rounded">Next</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -95,6 +97,7 @@ export default {
   },
   mounted() {
     this.fetchMeetings();
+   
   },
   methods: {
     filteredItems(obj) {
@@ -108,36 +111,14 @@ export default {
         this.meetings = response.data;
 
         console.log('meetings', this.meetings);
-        
+        this.$nextTick(function () {
+        $('#myTable').DataTable();
+        });
       } catch (error) {
         console.error('Error fetching meetings:', error);
       }
     },
-    async addMeeting() {
-      const newMeeting = {
-        unit: "UNIT IT",
-        room: "Ruang Borobudur",
-        capacity: "15 Orang",
-        date: "12 Desember 2024",
-        time: "10:00 s/d 12:00",
-        participants: "5 Orang",
-        consumption: "Snack Pagi"
-      };
-      try {
-        const response = await axios.post('http://localhost:5000/api/meetings', newMeeting);
-        this.meetings.push(response.data);
-      } catch (error) {
-        console.error('Error adding meeting:', error);
-      }
-    },
-    async deleteMeeting(id) {
-      try {
-        await axios.delete(`http://localhost:5000/api/meetings/${id}`);
-        this.meetings = this.meetings.filter(meeting => meeting.id !== id);
-      } catch (error) {
-        console.error('Error deleting meeting:', error);
-      }
-    }
+
   }
 };
 </script>
