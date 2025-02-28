@@ -1,20 +1,29 @@
 <template>
   <div class="flex flex-col h-screen">
     <!-- Header -->
-    <header class="bg-gradient-to-r from-gray-900 to-gray-600 text-white flex justify-between items-center p-2 shadow-md">
-      <div class="text-xl font-bold">FTL <span class="ml-6">IMeeting</span></div>
+    <header class="bg-gradient-to-r px-10 from-gray-900 to-gray-600 text-white flex justify-between items-center p-2 shadow-md">
+      <div @click.prevent="$router.push('/')" class="text-xl font-bold "> <span class="italic"> FTL </span> <span class="ml-6">IMeeting</span></div>
       <div class="flex items-center space-x-4">
         <span class="text-sm">John Doe</span>
-        <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full">
+        <!-- <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full"> -->
       </div>
     </header>
 
     <div class="flex flex-1">
       <!-- Sidebar -->
-      <div class="w-1/8 bg-white p-2 text-white mt-10 shadow-2xl">
-        <ul>
-          <li class="mb-2"><a href="#" class="text-indigo-950 hover:text-teal-400 text-center">Home</a></li>
-          <li class="mb-2"><a href="#" class="text-indigo-950 hover:text-teal-400 text-center">User</a></li>
+      <div class="w-1/20 bg-white  pt-8  text-white mt-10 shadow-2xl  flex justify-center border border-gray-200 shadow-t-lg">
+        <ul class="flex flex-col">
+          <li class="mb-2 px-2 bg-teal-600 py-2 px-4 rounded"><a href="#" class=" hover:text-teal-400  text-white">
+                  <!-- Home Icon -->
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"/>
+          </svg>
+          </a></li>
+          <li class="mb-2 py-2 px-4  "><a href="#" class="text-indigo-950 hover:text-teal-400">
+            <svg class="w-6 h-6 stroke-teal-400 text-white"  width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"/>
+            </svg>
+          </a></li>
         </ul>
       </div>
       <div class="w-7/8 p-6">
